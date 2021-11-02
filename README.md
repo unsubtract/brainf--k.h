@@ -19,8 +19,8 @@ bf | bf.h
 `.` | `·O`
 `,` | `·I`
 
-The middle-dot character (**·**) represents whitespace, 
-and it is **necessary** (the preprocessor gets sad without them).<br>
+**NOTE:** The middle-dot character (**·**) represents whitespace, 
+and it is **necessary** (the preprocessor gets sad without it).<br>
 Due to reasons, all files must also be terminated with a `·E` instruction.
 
 Technically this is still valid brainfuck, just with different symbols. 
@@ -41,13 +41,13 @@ $ cat program.b | ./convert > program.c
 ```
 ---
 ### Usage
-Have `brainfuck.h` ready in your source directory and 
-add `#include "brainfuck.h` to your source files 
+Have brainfuck.h ready in your source directory and 
+add `#include "brainfuck.h"` to your source files 
 (the converter does this automatically).
 
 You can change the cell size with the `BRAINFUCK_CELLSIZE` macro, 
 and tape length with the `BRAINFUCK_MEMSIZE` macro.<br>
-Make sure these are defined before the `brainfuck.h` include.
+Make sure these are defined before the include.
 
 Now you can try it out in a C compiler:
 ```sh
@@ -56,10 +56,9 @@ $ cc program.c -o program
 ---
 ### Demos
 This repository includes five brainfuck programs in `/demos/`.<br>
-They can be used to try out the functionality of `brainfuck.h` 
+They can be used to try out the functionality of brainfuck.h 
 and are automatically built by default with `make all` or `make demos`.
 
 Details and credits for the demos can be found within thir respective files.
 
----
 <h6 align="center">© 2021, unsubtract</h6>
