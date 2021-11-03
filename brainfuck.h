@@ -1,49 +1,50 @@
-/* brainfuck.h 1.0.0 - Make your brainfuck code buildable as C (sort of)!
+/* brainfuck.h 1.0.1 - Make your brainfuck code buildable as C (sort of)!
  * By unsubtract, ISC license, see README.md */
 #ifndef BRAINFUCK_H__
-#define BRAINFUCK_H__ "1.0.0"
+#define BRAINFUCK_H__ "1.0.1"
 
-#include <stdint.h>
+#include <limits.h>
 #include <stdio.h>
 
 #ifndef BRAINFUCK_MEMSIZE
     #define BRAINFUCK_MEMSIZE 30000
-#endif // BRAINFUCK_MEMSIZE
+#endif /* /BRAINFUCK_MEMSIZE */
 
-// How big are the cells (bytes)?
+/* How big are the cells? */
 #ifndef BRAINFUCK_CELLSIZE
-    #define BRAINFUCK_CELLSIZE 1
-#endif // BRAINFUCK_CELLSIZE
-#if BRAINFUCK_CELLSIZE == 1
-    #define BRAINFUCK_CELL uint8_t
-#elif BRAINFUCK_CELLSIZE == 2
-    #define BRAINFUCK_CELL uint16_t
-#elif BRAINFUCK_CELLSIZE == 4
-    #define BRAINFUCK_CELL uint32_t
-#elif BRAINFUCK_CELLSIZE == 8
-    #define BRAINFUCK_CELL uint64_t
+    #define BRAINFUCK_CELLSIZE 255
+#endif /* /BRAINFUCK_CELLSIZE */
+#if BRAINFUCK_CELLSIZE == UCHAR_MAX
+    #define BRAINFUCK_CELL unsigned char
+#elif BRAINFUCK_CELLSIZE == USHRT_MAX
+    #define BRAINFUCK_CELL unsigned short int
+#elif BRAINFUCK_CELLSIZE == UINT_MAX
+    #define BRAINFUCK_CELL unsigned int
+#elif BRAINFUCK_CELLSIZE == ULONG_MAX
+    #define BRAINFUCK_CELL unsigned long int
 #else
-    #error "Invalid BRAINFUCK_CELLSIZE, please select 1, 2, 4 or 8 bytes."
+    #error "Invalid BRAINFUCK_CELLSIZE,\
+ please select an unsigned integer limit (see limits.h(0P))."
 #endif
 typedef BRAINFUCK_CELL cell;
-// </How big are the cells (bytes)?>
+/* /How big are the cells? */
 
-// Instructions
-#define A ++*p;           // +
-#define S --*p;           // -
-#define N  ++p;           // >
-#define P  --p;           // <
-#define L while (*p) {    // [
-#define C }               // ]
-#define O putchar(*p);    // .
-#define I *p = getchar(); // ,
+/* Instructions */
+#define A /* + */ ++(*p);
+#define S /* - */ --(*p);
+#define N /* > */ ++p;
+#define P /* < */ --p;
+#define L /* [ */ while (*p) {
+#define C /* ] */ }
+#define O /* . */ putchar(*p);
+#define I /* , */ *p = getchar();
 
-#define E return 0; }     // End of program
-// </Instructions>
+#define E /* End */ return 0; }
+/* /Instructions */
 
-// Start of program
+/* Start of program */
 int main(void) {
-    cell m[sizeof(cell) * BRAINFUCK_MEMSIZE] = {0};
+    cell m[BRAINFUCK_MEMSIZE] = {0};
     cell *p = m;
 
-#endif // BRAINFUCK_H__
+#endif /* /BRAINFUCK_H__*/

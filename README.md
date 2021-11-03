@@ -34,8 +34,8 @@ This repository includes `convert.c`, which turns regular brainfuck
 into the brainfuck.h dialect.<br>It can be built with `make convert`.
 
 All input comes from `stdin` and all output goes to `stdout`.<br>
-`argv[1]` may optionally contain the cell size in bytes, 
-and `argv[2]` may optionally contain the tape length in cells.
+`argv[1]` may optionally contain the cell size expressed as an unsigned 
+integer limit, and `argv[2]` may optionally contain the tape length in cells.
 ```sh
 $ cat program.b | ./convert > program.c
 ```
@@ -55,7 +55,7 @@ $ cc program.c -o program
 ```
 ---
 ### Demos
-This repository includes five brainfuck programs in `/demos/`.<br>
+This repository includes various brainfuck programs in `/demos/`.<br>
 They can be used to try out the functionality of brainfuck.h 
 and are automatically built by default with `make all` or `make demos`.
 
