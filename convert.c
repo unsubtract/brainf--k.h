@@ -1,5 +1,5 @@
 /* convert.c 1.0.1 - Convert brainfuck source into brainfuck.h friendly stuff
- * By unsubtract, ISC license, see README.md */
+ * By unsubtract, MIT license, see README.md */
 #include <stdio.h>
 
 int main(int argc, char *argv[]) {

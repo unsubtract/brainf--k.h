@@ -1,5 +1,5 @@
 /* brainfuck.h 1.0.1 - Make your brainfuck code buildable as C (sort of)!
- * By unsubtract, ISC license, see README.md */
+ * By unsubtract, MIT license, see README.md */
 #ifndef BRAINFUCK_H__
 #define BRAINFUCK_H__ "1.0.1"
 
