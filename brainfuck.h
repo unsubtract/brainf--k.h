@@ -1,50 +1,82 @@
-/* brainfuck.h 1.0.1 - Make your brainfuck code buildable as C (sort of)!
+/* brainfuck.h 2.0.0 - build brainfuck in a C compiler (not recommended though)
  * By unsubtract, MIT license, see README.md */
-#ifndef BRAINFUCK_H__
-#define BRAINFUCK_H__ "1.0.1"
+#ifndef BRAINFUCK_H
+#define BRAINFUCK_H 2
 
-#include <limits.h>
+#include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-#ifndef BRAINFUCK_MEMSIZE
-    #define BRAINFUCK_MEMSIZE 30000
-#endif /* /BRAINFUCK_MEMSIZE */
-
-/* How big are the cells? */
-#ifndef BRAINFUCK_CELLSIZE
-    #define BRAINFUCK_CELLSIZE 255
-#endif /* /BRAINFUCK_CELLSIZE */
-#if BRAINFUCK_CELLSIZE == UCHAR_MAX
-    #define BRAINFUCK_CELL unsigned char
-#elif BRAINFUCK_CELLSIZE == USHRT_MAX
-    #define BRAINFUCK_CELL unsigned short int
-#elif BRAINFUCK_CELLSIZE == UINT_MAX
-    #define BRAINFUCK_CELL unsigned int
-#elif BRAINFUCK_CELLSIZE == ULONG_MAX
-    #define BRAINFUCK_CELL unsigned long int
-#else
-    #error "Invalid BRAINFUCK_CELLSIZE,\
- please select an unsigned integer limit (see limits.h(0P))."
+/* public macros */
+#ifndef MEMBITS
+ #define MEMBITS 15
 #endif
-typedef BRAINFUCK_CELL cell;
-/* /How big are the cells? */
 
-/* Instructions */
-#define A /* + */ ++(*p);
-#define S /* - */ --(*p);
-#define N /* > */ ++p;
-#define P /* < */ --p;
-#define L /* [ */ while (*p) {
-#define C /* ] */ }
-#define O /* . */ putchar(*p);
-#define I /* , */ *p = getchar();
+/* #ifndef CELLBITS
+ *  #define CELLBITS 8
+ * #endif */
 
-#define E /* End */ return 0; }
-/* /Instructions */
+#ifndef CELL_T
+  #define CELL_T uint8_t
+#endif
 
-/* Start of program */
+#ifndef EOF_FORMAT
+  #define EOF_FORMAT 0
+#endif
+/* */
+
+#ifdef CELLBITS
+  #define CELL_MASK_ (((CELL_T)1 << CELLBITS) - 1) /* cast forces unsigned */
+#endif
+
+#define MEM_MASK_ ((1 << MEMBITS) - 1)
+
+#define INC_MASKED /* + */ (*p) = (*p + 1) & CELL_MASK_;
+#define DEC_MASKED /* - */ (*p) = (*p - 1) & CELL_MASK_;
+
+#define INC_OVERFLOW /* + */ *p += 1;
+#define DEC_OVERFLOW /* - */ *p -= 1;
+
+#ifdef CELLBITS
+  #define INC INC_MASKED
+  #define DEC DEC_MASKED
+#else
+  #define INC INC_OVERFLOW
+  #define DEC DEC_OVERFLOW
+#endif
+
+/* simple cyclic buffer */
+#define IPT /* > */ offset = (offset + 1) & MEM_MASK_; p = m + offset;
+#define DPT /* < */ offset = (offset - 1) & MEM_MASK_; p = m + offset;
+
+#define JNZ /* [ */ while (*p) {
+#define JZR /* ] */ }
+
+#define PUT /* . */ putchar( (int)*p ); /* cast to avoid warning */
+
+/* , */
+#define GET_ZERO_ c = getchar(); *p = (c != EOF) ? (CELL_T)c : 0;
+#define GET_NEG_ c = getchar(); *p = (c != EOF) ? (CELL_T)c : CELL_MASK_;
+#define GET_UNCHANGED_ c = getchar(); if (c != EOF) *p = (CELL_T)c;
+
+#if EOF_FORMAT == 0
+  #define GET GET_ZERO_
+#elif EOF_FORMAT == -1
+  #define GET GET_NEG_
+#elif EOF_FORMAT == 1
+  #define GET GET_UNCHANGED_
+#else
+  #define GET
+  #error "Invalid EOF format (must be 0, -1 or 1)"
+#endif /* */
+
+#define RET return EXIT_SUCCESS; }
+
+
+/* inserts main function */
 int main(void) {
-    cell m[BRAINFUCK_MEMSIZE] = {0};
-    cell *p = m;
+    CELL_T m[1 << MEMBITS] = {0}, *p = m;
+    size_t offset = 0;
+    int c;
 
-#endif /* /BRAINFUCK_H__*/
+#endif /* BRAINFUCK_H */
