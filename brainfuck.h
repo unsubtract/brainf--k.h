@@ -1,7 +1,7 @@
 /* brainfuck.h 3.0.0 - build brainfuck in a C compiler (not recommended though)
  * By unsubtract, MIT license, see README.md */
 #ifndef BRAINFUCK_H
-#define BRAINFUCK_H 2
+#define BRAINFUCK_H 3
 
 #include <stdint.h>
 #include <stdio.h>
