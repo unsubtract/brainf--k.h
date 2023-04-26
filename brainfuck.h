@@ -70,8 +70,6 @@
   #error "Invalid EOF format (must be 0, -1 or 1)"
 #endif /* */
 
-#define RET return EXIT_SUCCESS; }
-
 
 /* inserts main function */
 int main(void) {
