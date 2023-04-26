@@ -1,4 +1,4 @@
-/* mkbfhsrc.c 2.0.0 - convert brainfuck sources into brainfuck.h
+/* mkbfhsrc.c 3.0.0 - convert brainfuck sources into brainfuck.h
  * By unsubtract, MIT license, see README.md */
 #include <errno.h>
 #include <stdio.h>
@@ -77,7 +77,7 @@ static void convert(
         case ',': fputs("GET ", outf); break;
         }
     }
-    fputs("RET\n", outf);
+    fputs("JZR\n", outf);
 }
 
 static void pexit(const char *s)

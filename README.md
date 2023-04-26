@@ -25,7 +25,7 @@ bf | bf.h
 `,` | `GET·`
 
 The middle-dot character `·` represents whitespace.
-All programs must be terminated with a `·RET` instruction.
+All programs must be terminated with an extra `·JZR` instruction.
 
 ## Usage
 After a file is converted, the macros described in

@@ -1,7 +1,7 @@
-/* brainfuck.h 2.0.0 - build brainfuck in a C compiler (not recommended though)
+/* brainfuck.h 3.0.0 - build brainfuck in a C compiler (not recommended though)
  * By unsubtract, MIT license, see README.md */
 #ifndef BRAINFUCK_H
-#define BRAINFUCK_H 2
+#define BRAINFUCK_H 3
 
 #include <stdint.h>
 #include <stdio.h>
@@ -69,8 +69,6 @@
   #define GET
   #error "Invalid EOF format (must be 0, -1 or 1)"
 #endif /* */
-
-#define RET return EXIT_SUCCESS; }
 
 
 /* inserts main function */
